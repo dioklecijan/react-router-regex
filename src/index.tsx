@@ -4,52 +4,69 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  RouteComponentProps
+  RouteComponentProps,
+  Link
 } from "react-router-dom";
-
+import "antd/dist/antd.css";
 import "./styles.css";
 
-const Renderer = (props: any) => (
+import { Icon } from "antd";
+import { RoutedTabs } from "./RoutedTabs";
+
+const DemoTable = (props: any) => <h1>Demo table</h1>;
+const DemoCards = (props: any) => <h1>Demo cards</h1>;
+const EntityPage = (props: any) => <h1>Entity page</h1>;
+
+const CollectionPage = (props: RouteComponentProps) => (
   <div>
-    <pre>
-      <code>{JSON.stringify(props, null, 2)}</code>
-    </pre>
+    <pre>{props.match.url}</pre>
+    <div>
+      <RoutedTabs
+        rootUrl={props.match.url}
+        tabProps={{ defaultActiveKey: "table" }}
+        tabPanes={[
+          {
+            label: (
+              <span>
+                <Icon type="table" />
+                <span>Table</span>
+              </span>
+            ),
+            component: DemoTable,
+            url: "table"
+          },
+          {
+            label: "Cards",
+            component: DemoCards,
+            url: "cards"
+          }
+        ]}
+        {...props}
+      />
+    </div>
   </div>
 );
 
-const DemoNum = (props: RouteComponentProps<{ id: string }>) => (
-  <div>
-    <h1>DemoNum</h1>
-    <Renderer {...props} />
-  </div>
+const AlwaysVisible = (props: any) => (
+  <p>
+    <code>antd</code> tab control with the client routes
+    <br />
+    Try <Link to="/demo">Collection object</Link>
+    {" | "}
+    <Link to="/demo/123">Entity object</Link>
+  </p>
 );
-
-const Demo = (props: RouteComponentProps) => (
-  <div>
-    <h1>Demo</h1>
-    <Renderer {...props} />
-  </div>
-);
-
-function App() {
+function App(props: any) {
   return (
     <>
-      <p>
-        Use different components for numeric and non-numeric params in route:
-      </p>
-      <pre>
-        <code>/123</code>
-      </pre>{" "}
-      should render DemoNum component.
-      <pre>
-        <code>/abc</code>
-      </pre>
-      should render Demo component.
       <Router>
-        <Switch>
-          <Route path="/:id(\d+)" component={DemoNum} exact={false} />
-          <Route path="/" component={Demo} exact={false} />
-        </Switch>
+        <div>
+          <AlwaysVisible />
+          <Switch>
+            <Route path="/demo/:id(\d+)" component={EntityPage} exact={false} />
+            <Route path="/demo" component={CollectionPage} exact={false} />
+          </Switch>
+        </div>
       </Router>
     </>
   );
