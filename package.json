@@ -1,11 +1,13 @@
 {
-  "name": "react-router-regex",
+  "name": "routed-antd-tabs",
   "version": "1.0.0",
-  "description": "Differentiate num and  non-num param in react-router Route component using regex ",
+  "description": "",
   "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
     "@types/react-router-dom": "4.3.1",
+    "antd": "3.22.0",
+    "moment": "2.24.0",
     "react": "16.8.4",
     "react-dom": "16.8.4",
     "react-router": "4.3.1",
